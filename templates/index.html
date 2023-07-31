@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Storage Calculator</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Storage Calculator</h1>
+        <form method="POST" class="mt-4">
+            <div class="form-group mb-3">
+                <label for="photos">Photos: <span id="photos_val">{{ quantities.get('Photos', 0) }}</span><br><small class="text-muted">Assumption: 5MB per photo</small></label>
+                <input type="range" class="form-control-range" id="photos" name="photos" min="0" max="5000" value="{{ quantities.get('Photos', 0) }}">
+            </div>
+            <br>
+            <div class="form-group mb-3">
+                <label for="videos">Videos (minutes): <span id="videos_val">{{ quantities.get('Videos', 0) }}</span><br><small class="text-muted">Assumption: 11.67MB per minute of video</small></label>
+                <input type="range" class="form-control-range" id="videos" name="videos" min="0" max="5000" value="{{ quantities.get('Videos', 0) }}">
+            </div>
+            <br>
+            <div class="form-group mb-3">
+                <label for="mp3s">MP3s: <span id="mp3s_val">{{ quantities.get('MP3s', 0) }}</span><br><small class="text-muted">Assumption: 5MB per 5 minute song</small></label>
+                <input type="range" class="form-control-range" id="mp3s" name="mp3s" min="0" max="5000" value="{{ quantities.get('MP3s', 0) }}">
+            </div>
+            <br>
+            <div class="form-group mb-3">
+                <label for="docs">Documents: <span id="docs_val">{{ quantities.get('Documents', 0) }}</span><br><small class="text-muted">Assumption: 0.1MB per document</small></label>
+                <input type="range" class="form-control-range" id="docs" name="docs" min="0" max="50000" value="{{ quantities.get('Documents', 0) }}">
+            </div>
+            <br>
+            <div class="form-group mb-3">
+                <label for="ppts">PowerPoints: <span id="ppts_val">{{ quantities.get('PowerPoints', 0) }}</span><br><small class="text-muted">Assumption: 2MB per PowerPoint</small></label>
+                <input type="range" class="form-control-range" id="ppts" name="ppts" min="0" max="5000" value="{{ quantities.get('PowerPoints', 0) }}">
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary">Calculate</button>
+        </form>
+        {% if total_space %}
+        <p class="mt-4">Total space required: <b>{{ total_space }} GB</b></p>
+        {% endif %}
+    </div>
+    <script>
+        const updateValue = (id) => {
+            const val = document.getElementById(id).value;
+            document.getElementById(id + '_val').textContent = val;
+        }
+        ['photos', 'videos', 'mp3s', 'docs', 'ppts'].forEach(id => {
+            const input = document.getElementById(id);
+            input.addEventListener('input', () => updateValue(id));
+        });
+    </script>
+</body>
+</html>
+
